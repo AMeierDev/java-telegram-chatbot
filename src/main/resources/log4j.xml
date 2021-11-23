@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration PUBLIC
+  "-//APACHE//DTD LOG4J 1.2//EN" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration
+	xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="stdout"
+		class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{HH:mm:ss} %-5p [%c] %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch" value="HHH000315" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch" value="HHH000346" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="Microsoft SQL Server 13.0 does not support setting the schema for the current session. Default schema will NOT be changed to system !" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<!-- DV: I-12619 Filtert eine Meldung von IText, die für uns keine Rolle 
+			spielt -->
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="The &quot;Property.FONT&quot; property with values of String type is deprecated, use String[] as property value type instead." />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="Last row is not completed. Table bottom border may collapse as you do not expect it" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="Unexpected behaviour during table row collapsing. Calculated rowspan was less then 1." />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+	</appender>
+
+	<appender name="sqlengine-logfile"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="Append" value="true" />
+		<param name="File" value="${user.home}/sqlEngine.log" />
+		<param name="MaxBackupIndex" value="20" />
+		<param name="MaxFileSize" value="50MB" />
+		<param name="Threshold" value="WARN" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{ABSOLUTE} %5p %X{FULL_LOCATION_INFO} - %m%n" />
+		</layout>
+		<filter class="util.logging.Log4JMDCFilter">
+			<param name="keyToMatch" value="CLASS_NAME" />
+			<param name="valueToMatch"
+				value="communication.comhandler.note.ComHandlerBonusNotificationSearch" />
+			<param name="denyOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<appender name="sqlengine-stdout"
+		class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				value="%d{ABSOLUTE} %5p %X{FULL_LOCATION_INFO} %m%n" />
+		</layout>
+		<filter class="util.logging.Log4JMDCFilter">
+			<param name="keyToMatch" value="CLASS_NAME" />
+			<param name="valueToMatch"
+				value="communication.comhandler.note.ComHandlerBonusNotificationSearch" />
+			<param name="denyOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<appender name="intranet-logfile-xml"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="Append" value="true" />
+		<param name="File" value="${user.home}/intranetLog.xml" />
+		<param name="MaxBackupIndex" value="20" />
+		<param name="MaxFileSize" value="50MB" />
+		<layout class="org.apache.log4j.xml.XMLLayout">
+			<param name="LocationInfo" value="true" />
+		</layout>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch" value="HHH000315" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch" value="HHH000346" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<!-- DV: I-12619 Filtert eine Meldung von IText, die für uns keine Rolle 
+			spielt -->
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="The &quot;Property.FONT&quot; property with values of String type is deprecated, use String[] as property value type instead." />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="Last row is not completed. Table bottom border may collapse as you do not expect it" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="Unexpected behaviour during table row collapsing. Calculated rowspan was less then 1." />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+	</appender>
+	<appender name="intranet-logfile-xml-ext"
+		class="org.apache.log4j.RollingFileAppender">
+		<param name="Append" value="true" />
+		<param name="File" value="${user.home}/intranetLog_ext.xml" />
+		<param name="MaxBackupIndex" value="20" />
+		<param name="MaxFileSize" value="50MB" />
+		<layout class="org.apache.log4j.xml.XMLLayout">
+			<param name="LocationInfo" value="true" />
+		</layout>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch" value="HHH000315" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch" value="HHH000346" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<!-- DV: I-12619 Filtert eine Meldung von IText, die für uns keine Rolle 
+			spielt -->
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="The &quot;Property.FONT&quot; property with values of String type is deprecated, use String[] as property value type instead." />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="Last row is not completed. Table bottom border may collapse as you do not expect it" />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+		<filter class="org.apache.log4j.varia.StringMatchFilter">
+			<param name="StringToMatch"
+				value="Unexpected behaviour during table row collapsing. Calculated rowspan was less then 1." />
+			<param name="AcceptOnMatch" value="false" />
+		</filter>
+	</appender>
+	<logger name="org.flywaydb.core.internal.command.DbMigrate">
+		<level value="INFO" />
+	</logger>
+	<logger name="util.properties.ApplicationProperties">
+		<level value="INFO" />
+	</logger>
+	<logger name="communication.CacheFiller">
+		<level value="INFO" />
+	</logger>
+	<logger name="communication.Server">
+		<level value="INFO" />
+	</logger>
+	<!-- I-12726 wegen zuvielen Logausgaben deaktiviert -->
+	<!-- <logger -->
+	<!-- name="communication.comhandler.ServerCommunicationHandler.calls" -->
+	<!-- additivity="false"> -->
+	<!-- <level value="DEBUG" /> -->
+	<!-- <appender-ref ref="intranet-logfile-xml" /> -->
+	<!-- </logger> -->
+	<logger name="continuous.bonus">
+		<level value="INFO" />
+	</logger>
+	<logger name="extLog" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="intranet-logfile-xml-ext" />
+	</logger>
+	<logger name="intranet.sqlengine" additivity="false">
+		<level value="TRACE" />
+		<appender-ref ref="sqlengine-logfile" />
+	</logger>
+
+	<!-- I-12790 Mit Einfuehrung Vaadin14 wieder entfernen -->
+	<logger
+		name="communication.comhandler.artikel.ComHandlerHiModellSearch.multiuse">
+		<level value="DEBUG" />
+	</logger>
+
+	<logger name="org.hibernate">
+		<level value="WARN" />
+	</logger>
+	<logger
+		name="org.hibernate.cache.ehcache.AbstractEhcacheRegionFactory">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.hibernate.cfg">
+		<level value="WARN" />
+	</logger>
+	<!-- Diesen Logger auf DEBUG stellen damit man die SQL's bekommt welche 
+		von Queries an die DB geschickt werden. -->
+	<logger
+		name="org.hibernate.hql.internal.ast.QueryTranslatorImpl">
+		<level value="WARN" />
+	</logger>
+	<!-- Diesen Logger auf TRACE stellen damit man die '?' für den QueryTranslatorImpl-Logger 
+		bekommt -->
+	<logger name="org.hibernate.type.descriptor.sql.BasicBinder">
+		<level value="WARN" />
+	</logger>
+	<logger
+		name="org.hibernate.dialect.lock.PessimisticReadUpdateLockingStrategy">
+		<level value="ERROR" />
+	</logger>
+	<logger
+		name="org.hibernate.dialect.lock.PessimisticWriteUpdateLockingStrategy">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.hibernate.dialect.lock.UpdateLockingStrategy">
+		<level value="ERROR" />
+	</logger>
+	<logger
+		name="org.hibernate.engine.internal.StatefulPersistenceContext">
+		<level value="ERROR" />
+	</logger>
+	<logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper"
+		additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="intranet-logfile-xml-ext" />
+	</logger>
+	<logger name="org.hibernate.orm.deprecation">
+		<level value="ERROR" />
+	</logger>
+	<logger name="remote">
+		<level value="INFO" />
+	</logger>
+	<logger name="start.ServerMain">
+		<level value="INFO" />
+	</logger>
+	<logger name="sun.rmi">
+		<level value="WARN" />
+	</logger>
+	<root>
+		<level value="WARN" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="intranet-logfile-xml" />
+		<appender-ref ref="intranet-logfile-xml-ext" />
+	</root>
+</log4j:configuration>

@@ -1,0 +1,14 @@
+/.bot.db
+/.classpath
+/.gradle
+/.idea
+/.project
+/.settings
+/.vscode
+/bin
+/build
+/out
+/target/
+microStream.db/
+data/
+herthaehnchen_bot*
