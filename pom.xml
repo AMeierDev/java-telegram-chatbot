@@ -8,6 +8,8 @@
 	<groupId>de.bigamgamen</groupId>
 	<artifactId>java.telegrambots</artifactId>
 	<version>0.9-FINAL</version>
+	
+	<name>java.telegrambots</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -93,6 +95,9 @@
 	</dependencies>
 
 	<build><!-- Kopiert alle Libs einzeln in den Lib Ordner wie früher. -->
+
+        <finalName>${project.name}</finalName>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
