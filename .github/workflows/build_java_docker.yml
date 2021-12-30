@@ -33,8 +33,8 @@ jobs:
       
       - uses: actions/upload-artifact@v2
         with:
-         name: java.telegrambots-[*]-FINAL.jar
-         path: target/*.jar
+         name: java.telegrambots.jar
+         path: target/
 
   deploy:
     name: Deploy
@@ -65,8 +65,8 @@ jobs:
 
     - uses: actions/download-artifact@v2
       with:
-          name: java.telegrambots-[*]-FINAL.jar
-          path: target/*.jar
+          name: java.telegrambots.jar
+          path: target/
 
     - name: Login to DockerHub
       uses: docker/login-action@v1 
