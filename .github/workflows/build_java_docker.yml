@@ -53,20 +53,20 @@ jobs:
           name: java.telegrambots.jar
           path: target/
     
-    - name: Set up buildx
-      id: buildx
-      uses: docker/setup-buildx-action@v1
+    - name: Set up Quemu
+      id: quemu
+      uses: docker/setup-quemu-action@v2
       with:
         image: tonistiigi/binfmt:latest
         platforms: linux/amd64,linux/arm64,linux/arm/v7
     -
         name: Inspect builder
         run: |
-          echo "Name:      ${{ steps.buildx.outputs.name }}"
-          echo "Endpoint:  ${{ steps.buildx.outputs.endpoint }}"
-          echo "Status:    ${{ steps.buildx.outputs.status }}"
-          echo "Flags:     ${{ steps.buildx.outputs.flags }}"
-          echo "Platforms: ${{ steps.buildx.outputs.platforms }}"
+          echo "Name:      ${{ steps.quemu.outputs.name }}"
+          echo "Endpoint:  ${{ steps.quemu.outputs.endpoint }}"
+          echo "Status:    ${{ steps.quemu.outputs.status }}"
+          echo "Flags:     ${{ steps.quemu.outputs.flags }}"
+          echo "Platforms: ${{ steps.quemu.outputs.platforms }}"
     
     - name: Login to DockerHub
       uses: docker/login-action@v1 
@@ -80,5 +80,6 @@ jobs:
       with:
         context: ./
         file: ./Dockerfile
+        platforms: linux/amd64,linux/arm64,linux/arm/v7
         push: true
         tags: amgamen/chatbot:latest
