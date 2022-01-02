@@ -67,6 +67,9 @@ jobs:
           echo "Status:    ${{ steps.qemu.outputs.status }}"
           echo "Flags:     ${{ steps.qemu.outputs.flags }}"
           echo "Platforms: ${{ steps.qemu.outputs.platforms }}"
+    -
+        name: start buildx container
+        run: docker buildx create --use
     
     - name: Login to DockerHub
       uses: docker/login-action@v1 
