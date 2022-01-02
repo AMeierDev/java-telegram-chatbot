@@ -55,7 +55,7 @@ jobs:
     
     - name: Set up Quemu
       id: quemu
-      uses: docker/setup-quemu-action@v2
+      uses: docker/setup-quemu-action@v1
       with:
         image: tonistiigi/binfmt:latest
         platforms: linux/amd64,linux/arm64,linux/arm/v7
