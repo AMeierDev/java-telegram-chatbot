@@ -100,7 +100,7 @@ public class HertlHendlBot extends AbilityBot
 	private final TelegramKeyBoardBuilder keyBoardBuilder;
 	private final RightController rightController;
 	private RoleController roleController;
-	private final Integer creatorId;
+	private final Long creatorId;
 
 	public static void main(final String[] args)
 			throws ParserConfigurationException, SAXException, IOException, URISyntaxException, TelegramApiException
@@ -109,14 +109,14 @@ public class HertlHendlBot extends AbilityBot
 
 		final String token = args[0] != null ? args[0] : BOT_TOKEN;
 		final String username = args[1] != null ? args[1] : BOT_USERNAME;
-		final Integer creatorId = args[2] != null ? Integer.valueOf(args[2]) : CREATOR_ID;
+		final Long creatorId = args[2] != null ? Long.valueOf(args[2]) : CREATOR_ID;
 		final HertlHendlBot bot = new HertlHendlBot(token, username, creatorId);
 		TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
 		api.registerBot(bot);
 		LOG.info("HertlHendlBot successfull started");
 	}
 
-	public HertlHendlBot(final String botToken, final String botUsername, Integer creatorId)
+	public HertlHendlBot(final String botToken, final String botUsername, Long creatorId)
 			throws ParserConfigurationException, SAXException, IOException, URISyntaxException
 	{
 		super(botToken, botUsername);

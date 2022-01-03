@@ -6,10 +6,10 @@ import de.bigamgamen.java.telegrambots.hertlhendl.api.RightController;
 
 public class HertlRightController implements RightController{
 
-	private final Integer adminId; 
+	private final Long adminId; 
 
     
-	public HertlRightController(Integer adminId) {
+	public HertlRightController(Long adminId) {
 		this.adminId = adminId;
 	}
 
