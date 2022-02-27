@@ -24,9 +24,12 @@ import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.http.impl.io.EmptyInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.abilitybots.api.bot.AbilityBot;
@@ -92,11 +96,13 @@ public class HertlHendlBot extends AbilityBot
 	private static final String MESSAGE_COMMIT_SUCCESSFULL = "Die Bestellung wurde erfolgreich bestätigt";
 	
 	private static final String HENDL_PREISE_JPG = "hendl_preise.jpg";
+	private static final String HENDL_LOCATION_JPG = "hendl_location.jpg";
 	private final static Logger LOG = LoggerFactory.getLogger(HertlHendlBot.class);
 	private final static String BOT_TOKEN = "";
 	private final static String BOT_USERNAME = "";
 	private static Integer CREATOR_ID = 0;
-	private static String HERTL_URL = "https://hertel-haehnchen.de/standplatzsuche?search=92637";
+	private static String HERTL_URL =
+		"http://ks3266365.kimsufi.com:2341/?url=https://hertel-haehnchen.de/standplatzsuche?search=92637";
 	private static HertlBotRootDao hertlBotDao;
 	
 	private final TelegramKeyBoardBuilder keyBoardBuilder;
@@ -223,18 +229,19 @@ public class HertlHendlBot extends AbilityBot
 	
 	public Ability showAdminOpenOrders()
 	{
-		return Ability.builder().name(ABILITY_NAME_ADMIN_OPEN_ORDERS).info("Zeigt die offenen Admin Bestellungen").locality(
-			ALL).privacy(PUBLIC).action(context ->
-			{
-				if(roleController.canUseAbility(context.user(), ABILITY_NAME_ADMIN_OPEN_ORDERS))
+		return Ability.builder().name(ABILITY_NAME_ADMIN_OPEN_ORDERS).info(
+			"Zeigt die offenen Admin Bestellungen").locality(
+				ALL).privacy(PUBLIC).action(context ->
 				{
-					final SendMessage message = new SendMessage();
-					message.setChatId(Long.toString(context.chatId()));
-					message.setText(OrderHelper.getOrdersAsString(hertlBotDao.loadOpenOrdersForToday()));
-					
-					this.silent.execute(message);
-				}
-			}).build();
+					if(roleController.canUseAbility(context.user(), ABILITY_NAME_ADMIN_OPEN_ORDERS))
+					{
+						final SendMessage message = new SendMessage();
+						message.setChatId(Long.toString(context.chatId()));
+						message.setText(OrderHelper.getOrdersAsString(hertlBotDao.loadOpenOrdersForToday()));
+						
+						this.silent.execute(message);
+					}
+				}).build();
 	}
 	
 	public Ability showAdminSumOrder()
@@ -455,26 +462,18 @@ public class HertlHendlBot extends AbilityBot
 			{
 				if(roleController.canUseAbility(context.user(), ABILITY_NAME_LOCATION_PHOTO))
 				{
-					this.makeScreenshotSenditDeleteit(context.chatId());
+					this.sendPhotoFromUpload(makingScreenshotOfHertlHomepage(), HENDL_LOCATION_JPG, context.chatId());
 				}
 			}).build();
 	}
 	
-	private void makeScreenshotSenditDeleteit(final Long chatId)
-	{
-		final String fileName = this.makingScreenshotOfHertlHomepage();
-		this.sendPhotoFromUpload(fileName, chatId);
-		final File fileToDelete = new File(fileName);
-		fileToDelete.delete();
-	}
-	
-	private void sendPhotoFromUpload(final String filePath, final Long chatId)
+	private void sendPhotoFromUpload(final InputStream is, String fileName, final Long chatId)
 	{
 		final SendPhoto sendPhotoRequest = new SendPhoto(); // 1
 		sendPhotoRequest.setChatId(Long.toString(chatId)); // 2
 		try
 		{
-			sendPhotoRequest.setPhoto(new InputFile(IOHelper.findResource(filePath), filePath));
+			sendPhotoRequest.setPhoto(new InputFile(is, fileName));
 		}
 		catch(final Exception e1)
 		{
@@ -491,68 +490,40 @@ public class HertlHendlBot extends AbilityBot
 		}
 	}
 	
+	private void sendPhotoFromUpload(final String filePath, final Long chatId)
+	{
+		try
+		{
+			sendPhotoFromUpload(IOHelper.findResource(filePath), filePath, chatId);
+		}
+		catch(IOException e)
+		{
+			LOG.error("Fehler beim schicken des Photos:{}", e);
+		}
+		
+	}
+	
 	/**
 	 * Make an Screenshot of the Hmepage with docker. Works only on Linux
 	 * 
 	 * @return Fullqualified Filename to load from Hdd.
 	 */
-	private String makingScreenshotOfHertlHomepage()
+	private InputStream makingScreenshotOfHertlHomepage()
 	{
-		final ProcessBuilder processBuilder = new ProcessBuilder();
-		
-		final String hertlTimeStampFileName = "hertl_standorteFoto"
-			+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd__HH-mm-ss-SSS"))
-			+ ".png";
-		
 		try
 		{
 			
-			// -- Linux --
-			final String command = "sudo docker run --rm -v $PWD:/srv lifenz/docker-screenshot "
-				+ HERTL_URL
-				+ " "
-				+ hertlTimeStampFileName
-				+ " 1500px 2000 1";
-			System.out.println(command);
-			// Run a shell command
-			processBuilder.command("bash", "-c", command);
+			URL u = new URL(HERTL_URL);
 			
-			final Process process = processBuilder.start();
-			System.out.println("Docker gestartet");
-			
-			final StringBuilder output = new StringBuilder();
-			
-			final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-			
-			String line;
-			while((line = reader.readLine()) != null)
-			{
-				output.append(line + "\n");
-			}
-			
-			final int exitVal = process.waitFor();
-			System.out.println("exitvalue: " + exitVal);
-			if(exitVal == 0)
-			{
-				System.out.println("Success!");
-				System.out.println(output);
-				return hertlTimeStampFileName;
-			}
-			else
-			{
-				return null;
-			}
+			return u.openStream();
 			
 		}
 		catch(final IOException e)
 		{
-			e.printStackTrace();
+			LOG.error("{}",e);
 		}
-		catch(final InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		return "";
+		
+		return null;
 		
 	}
 	
