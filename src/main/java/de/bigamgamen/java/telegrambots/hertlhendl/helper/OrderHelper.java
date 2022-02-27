@@ -31,6 +31,13 @@ public class OrderHelper
 		return totalOrder;
 	}
 	
+	public static String getOrdersAsString(List<HertlBotOrder> orderList)
+	{	StringBuilder allOrders = new StringBuilder();
+		orderList.forEach(order -> allOrders.append("\n" + order.toString()));
+		
+		return allOrders.toString();
+	}
+	
 	public static void addArticleToOrder(final HertlBotArticle artikel, BigInteger amount, final HertlBotOrder bestellung)
 	{
 		final Predicate<HertlBotPosition> positionAlreadyExist = position -> position.getArtikel().getName()

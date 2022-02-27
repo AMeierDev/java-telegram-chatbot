@@ -20,11 +20,10 @@ public class HertlRoleController implements RoleController
 			HertlHendlBot.ABILITY_NAME_NEW_ORDER, 
 			HertlHendlBot.ABILITY_NAME_LIST_MY_ORDERS, 
 			HertlHendlBot.ABILITY_NAME_MY_ORDERS_AS_KEYBOARD,			
-			HertlHendlBot.ABILITY_NAME_MY_OPEN_ORDERS,
 			HertlHendlBot.ABILITY_NAME_ADMIN_OPEN_ORDERS,
 			HertlHendlBot.ABILITY_NAME_ADMIN_CLOSE_ORDERS,
-			HertlHendlBot.ABILITY_NAME_ADD_POSITION,
 			HertlHendlBot.ABILITY_NAME_ORDER,
+			HertlHendlBot.ABILITY_NAME_ADD_POSITION,
 			HertlHendlBot.ABILITY_NAME_COMMIT_ORDER,
 			HertlHendlBot.ABILITY_NAME_CLOSE_ORDER);
 	private static List<String> USER_SET = Arrays.asList(
@@ -34,10 +33,9 @@ public class HertlRoleController implements RoleController
 			HertlHendlBot.ABILITY_NAME_ITEM_LIST,
 			HertlHendlBot.ABILITY_NAME_NEW_ORDER, 
 			HertlHendlBot.ABILITY_NAME_LIST_MY_ORDERS, 
-			HertlHendlBot.ABILITY_NAME_MY_ORDERS_AS_KEYBOARD,			
-			HertlHendlBot.ABILITY_NAME_MY_OPEN_ORDERS,
-			HertlHendlBot.ABILITY_NAME_ADD_POSITION,
+			HertlHendlBot.ABILITY_NAME_MY_ORDERS_AS_KEYBOARD,						
 			HertlHendlBot.ABILITY_NAME_ORDER,
+			HertlHendlBot.ABILITY_NAME_ADD_POSITION,
 			HertlHendlBot.ABILITY_NAME_COMMIT_ORDER,
 			HertlHendlBot.ABILITY_NAME_CLOSE_ORDER);
 

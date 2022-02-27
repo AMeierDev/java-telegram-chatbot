@@ -11,8 +11,10 @@ import one.microstream.persistence.types.Persister;
 
 public class HertlBotOrder {
 	
+	private static final String ORDER_UNCOMMITED = "UNBESTÄTIGT";
 	private static final String ORDER_COMMITED = "BESTÄTIGT";
 	private static final String ORDER_CLOSED = "GESCHLOSSEN";
+	private static final String ORDER_OPEN = "OFFEN";
 	private static final String ORDER_TITLE = "Ihre Bestellung:";
 	private static final String DD_MM_YYYY = "dd-MM-yyyy";
 	private int index;
@@ -46,11 +48,12 @@ public class HertlBotOrder {
 	
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder(ORDER_TITLE + " " +this.index);
+		final StringBuilder sb = new StringBuilder(ORDER_TITLE + " " + this.index);
 		sb.append(" Für: " + this.getUser().getUserName())
-			.append(" Vom: " + this.getBestellDatumFormated() + "." 
-		+ (isCommited() ? ORDER_COMMITED + " und ":"")
-		+ (isClosed() ? ORDER_CLOSED:"") 
+			.append(" Vom: " + this.getBestellDatumFormated() + ". " 
+		+ (isCommited() ? ORDER_COMMITED : ORDER_UNCOMMITED)
+		+ "\n und "
+		+ (isClosed() ? ORDER_CLOSED: ORDER_OPEN) 
 		+ System.lineSeparator());
 		this.positionen.forEach(pos -> sb.append(pos.toString()+System.lineSeparator()));
 		sb.append("Summe: "+ this.getSumme());
