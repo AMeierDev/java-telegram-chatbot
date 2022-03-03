@@ -111,8 +111,8 @@ public class HertlHendlBot extends AbilityBot
 	private final RightController rightController;
 	private final RoleController roleController;
 	private final Long creatorId;
-	//todo email von außen übergeben
-	private final String creatorEmail ="";
+	
+	private String creatorPayPalEmail ="";
 	private final PaypalLinkGenerator payPalGenerator = new PaypalLinkGenerator();
 	
 	
@@ -124,13 +124,14 @@ public class HertlHendlBot extends AbilityBot
 		final String token = args[0] != null ? args[0] : BOT_TOKEN;
 		final String username = args[1] != null ? args[1] : BOT_USERNAME;
 		final Long creatorId = args[2] != null ? Long.valueOf(args[2]) : CREATOR_ID;
-		final HertlHendlBot bot = new HertlHendlBot(token, username, creatorId);
+		final String creatorPayPalEmail = args[3] != null ? args[3] : "";
+		final HertlHendlBot bot = new HertlHendlBot(token, username, creatorId, creatorPayPalEmail);
 		final TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
 		api.registerBot(bot);
 		LOG.info("HertlHendlBot successfull started");
 	}
 	
-	public HertlHendlBot(final String botToken, final String botUsername, Long creatorId)
+	public HertlHendlBot(final String botToken, final String botUsername, Long creatorId, String creatorPayPalEmail)
 		throws ParserConfigurationException, SAXException, IOException, URISyntaxException
 	{
 		super(botToken, botUsername);
@@ -140,6 +141,7 @@ public class HertlHendlBot extends AbilityBot
 		this.rightController = new HertlRightController(creatorId);
 		this.roleController = new HertlRoleController(this.rightController);
 		this.creatorId = creatorId;
+		this.creatorPayPalEmail = creatorPayPalEmail;
 		this.initAdminUser();
 	}
 	
@@ -542,7 +544,7 @@ public class HertlHendlBot extends AbilityBot
 				message.setChatId(Long.toString(context.chatId()));
 				try
 				{
-					message.setText(this.payPalGenerator.generatePayPalLinkForOrder(bestellung, this.creatorEmail).toString());
+					message.setText(this.payPalGenerator.generatePayPalLinkForOrder(bestellung, this.creatorPayPalEmail).toString());
 					this.silent.execute(message);
 				}
 				catch(final MalformedURLException e)
