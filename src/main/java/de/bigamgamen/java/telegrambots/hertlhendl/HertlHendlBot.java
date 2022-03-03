@@ -24,6 +24,7 @@ import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,6 +53,7 @@ import org.xml.sax.SAXException;
 import com.google.common.annotations.VisibleForTesting;
 
 import de.bigamgamen.java.helper.IOHelper;
+import de.bigamgamen.java.helper.PaypalLinkGenerator;
 import de.bigamgamen.java.telegrambots.hertlhendl.api.RightController;
 import de.bigamgamen.java.telegrambots.hertlhendl.api.RoleController;
 import de.bigamgamen.java.telegrambots.hertlhendl.builder.TelegramKeyBoardBuilder;
@@ -84,6 +86,7 @@ public class HertlHendlBot extends AbilityBot
 	public static final String ABILITY_NAME_ADMIN_CLOSE_ORDERS = "admincloseorders";
 	public static final String ABILITY_NAME_CLOSE_ORDER = "closeorder";
 	public static final String ABILITY_NAME_COMMIT_ORDER = "commitorder";
+	public static final String ABILITY_NAME_PAYPAL_LINK = "paypallink";
 	
 	private static final String MESSAGE_CLOSE_SUCCESSFULL = "Die Bestellung wurde erfolgreich geschlossen.";
 	private static final String ALL_MESSAGE_CLOSE_SUCCESSFULL =
@@ -98,6 +101,7 @@ public class HertlHendlBot extends AbilityBot
 	private final static String BOT_TOKEN = "";
 	private final static String BOT_USERNAME = "";
 	private final static String ADMIN_DEFAULT_NAME = "Admin";
+
 	private static Integer CREATOR_ID = 0;
 	private static String HERTL_URL =
 		"http://ks3266365.kimsufi.com:2341/?url=https://hertel-haehnchen.de/standplatzsuche?search=92637";
@@ -108,6 +112,10 @@ public class HertlHendlBot extends AbilityBot
 	private final RoleController roleController;
 	private final Long creatorId;
 	
+	private String creatorPayPalEmail ="";
+	private final PaypalLinkGenerator payPalGenerator = new PaypalLinkGenerator();
+	
+	
 	public static void main(final String[] args)
 		throws ParserConfigurationException, SAXException, IOException, URISyntaxException, TelegramApiException
 	{
@@ -116,13 +124,14 @@ public class HertlHendlBot extends AbilityBot
 		final String token = args[0] != null ? args[0] : BOT_TOKEN;
 		final String username = args[1] != null ? args[1] : BOT_USERNAME;
 		final Long creatorId = args[2] != null ? Long.valueOf(args[2]) : CREATOR_ID;
-		final HertlHendlBot bot = new HertlHendlBot(token, username, creatorId);
+		final String creatorPayPalEmail = args[3] != null ? args[3] : "";
+		final HertlHendlBot bot = new HertlHendlBot(token, username, creatorId, creatorPayPalEmail);
 		final TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
 		api.registerBot(bot);
 		LOG.info("HertlHendlBot successfull started");
 	}
 	
-	public HertlHendlBot(final String botToken, final String botUsername, Long creatorId)
+	public HertlHendlBot(final String botToken, final String botUsername, Long creatorId, String creatorPayPalEmail)
 		throws ParserConfigurationException, SAXException, IOException, URISyntaxException
 	{
 		super(botToken, botUsername);
@@ -132,6 +141,7 @@ public class HertlHendlBot extends AbilityBot
 		this.rightController = new HertlRightController(creatorId);
 		this.roleController = new HertlRoleController(this.rightController);
 		this.creatorId = creatorId;
+		this.creatorPayPalEmail = creatorPayPalEmail;
 		this.initAdminUser();
 	}
 	
@@ -515,6 +525,41 @@ public class HertlHendlBot extends AbilityBot
 			}).build();
 	}
 	
+	public Ability showPayPalLink()
+	{
+		return Ability.builder().name(ABILITY_NAME_PAYPAL_LINK).info("PaypalLink").locality(
+			ALL).privacy(PUBLIC).input(1).action(context ->
+			{
+				//TOFDO nur mit Recht dazu
+				
+				final int bestellId = Integer.parseInt(context.firstArg());
+				final Long chatId = context.chatId();
+				final HertlBotOrder bestellung = hertlBotDao.loadBestellung(
+					chatId,
+					TelegramHelper.getTotalUserName(context.user()),
+					bestellId);
+				//TODO logik for closed Order
+				
+				final SendMessage message = new SendMessage();
+				message.setChatId(Long.toString(context.chatId()));
+				try
+				{
+					message.setText(this.payPalGenerator.generatePayPalLinkForOrder(bestellung, this.creatorPayPalEmail).toString());
+					this.silent.execute(message);
+				}
+				catch(final MalformedURLException e)
+				{
+					e.printStackTrace();
+					LOG.error("Fehler beim genieren PayPalLink:{}", e);
+				}
+				
+
+				
+
+				
+			}).build();
+	}
+	
 	private void sendPhotoFromUpload(final InputStream is, String fileName, final Long chatId)
 	{
 		final SendPhoto sendPhotoRequest = new SendPhoto(); // 1
@@ -534,7 +579,7 @@ public class HertlHendlBot extends AbilityBot
 		}
 		catch(final TelegramApiException e)
 		{
-			e.printStackTrace();
+			LOG.error("Fehler beim schicken des Photos:{}", e);
 		}
 	}
 	
