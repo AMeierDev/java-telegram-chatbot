@@ -20,4 +20,4 @@ USER telegrambot
 
 #CMD ["echo $UID"]
 
-ENTRYPOINT ["sh" , "-c", "java -cp java.telegrambots.jar:./lib/* de.bigamgamen.java.telegrambots.hertlhendl.HertlHendlBot ${BOT_TOKEN}:${BOT_KEY} ${BOT_NAME} ${CREATOR_ID}"]
+ENTRYPOINT ["sh" , "-c", "java -cp java.telegrambots.jar:./lib/* de.bigamgamen.java.telegrambots.hertlhendl.HertlHendlBot ${BOT_TOKEN}:${BOT_KEY} ${BOT_NAME} ${CREATOR_ID} ${CREATOR_PAYPAL_EMAIL}"]
