@@ -1,12 +1,11 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Build Java BuildDepolyDocker Start Docker on Server
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-  pull_request:
     branches:
       - main
       - staging

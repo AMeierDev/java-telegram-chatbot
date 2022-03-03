@@ -11,4 +11,8 @@ public class Pricehelper {
 	public static String getPriceAsEuroString(BigInteger priceInCent) {
 		return NumberFormat.getCurrencyInstance().format(priceInCent.doubleValue() / 100);
 	}
+	public static String getPriceAsDotString(BigInteger priceInCent) {
+		return Double.toString(priceInCent.doubleValue() / 100);
+	}
+	
 }
