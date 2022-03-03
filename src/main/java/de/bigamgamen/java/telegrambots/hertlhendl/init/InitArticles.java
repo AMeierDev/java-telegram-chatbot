@@ -19,13 +19,13 @@ public class InitArticles
 	{
 		final List<HertlBotArticle> artikelList = new ArrayList<>();
         // Die Namen Dürfen keine Leerzeichen enthalten !!!!
-		artikelList.add(new HertlBotArticle(1, "1/2-Hähnchen", BigInteger.valueOf(400L)));
-		artikelList.add(new HertlBotArticle(2, "Hähnchen-Schenkel", BigInteger.valueOf(220L)));
-		artikelList.add(new HertlBotArticle(3, "Krautsalat", BigInteger.valueOf(160L)));        
-		artikelList.add(new HertlBotArticle(4, "Brezel-klein", BigInteger.valueOf(80L)));
-		artikelList.add(new HertlBotArticle(5, "Brezel-groß", BigInteger.valueOf(160L)));
-        artikelList.add(new HertlBotArticle(6, "Kartoffelsalat-Essig-Öl", BigInteger.valueOf(160L)));
-        artikelList.add(new HertlBotArticle(7, "Kartoffelsalat-Majo", BigInteger.valueOf(160L)));
+		artikelList.add(new HertlBotArticle(1, "1/2-Hähnchen", BigInteger.valueOf(430L)));
+		artikelList.add(new HertlBotArticle(2, "Hähnchen-Schenkel", BigInteger.valueOf(230L)));
+		artikelList.add(new HertlBotArticle(3, "Krautsalat", BigInteger.valueOf(180L)));        
+		artikelList.add(new HertlBotArticle(4, "Brezel-klein", BigInteger.valueOf(100L)));
+		artikelList.add(new HertlBotArticle(5, "Brezel-groß", BigInteger.valueOf(170L)));
+        artikelList.add(new HertlBotArticle(6, "Kartoffelsalat-Essig-Öl", BigInteger.valueOf(180L)));
+        artikelList.add(new HertlBotArticle(7, "Kartoffelsalat-Majo", BigInteger.valueOf(180L)));
 
         dao.root().artikels().clearAll();
         
