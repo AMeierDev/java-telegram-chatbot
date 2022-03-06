@@ -1,6 +1,8 @@
 package de.bigamgamen.java.telegrambots.hertlhendl.domain;
 
 import java.math.BigInteger;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -125,8 +127,10 @@ public class HertlBotOrder {
 	
 	public String getPayPalDescription()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		final StringBuilder sb = new StringBuilder();
+		this.positionen.forEach(pos -> sb.append(pos.toString()+","));
+
+		return URLEncoder.encode(sb.toString(), StandardCharsets.UTF_8);
 	}
 
 
