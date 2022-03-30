@@ -49,10 +49,10 @@ public class TelegramKeyBoardBuilder {
 		row.add(new KeyboardButton(this.createKeyForAbility(HertlHendlBot.ABILITY_NAME_CLOSE_ORDER+" "+bestellungId)));
 		keyboard.add(row);
 
-		//TODO erst wenn die order geliefert wurde.
-		row = new KeyboardRow();
-		row.add(new KeyboardButton(this.createKeyForAbility(HertlHendlBot.ABILITY_NAME_PAYPAL_LINK+" "+bestellungId)));
-		keyboard.add(row);
+		//TODO erst wenn die order geliefert wurde. und das mit freunde zahlen geht
+		//		row = new KeyboardRow();
+		//		row.add(new KeyboardButton(this.createKeyForAbility(HertlHendlBot.ABILITY_NAME_PAYPAL_LINK+" "+bestellungId)));
+		//		keyboard.add(row);
 		
 		return keyboard;
 	}
