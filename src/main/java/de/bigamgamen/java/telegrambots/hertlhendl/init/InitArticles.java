@@ -19,8 +19,8 @@ public class InitArticles
 	{
 		final List<HertlBotArticle> artikelList = new ArrayList<>();
         // Die Namen Dürfen keine Leerzeichen enthalten !!!!
-		artikelList.add(new HertlBotArticle(1, "1/2-Hähnchen", BigInteger.valueOf(430L)));
-		artikelList.add(new HertlBotArticle(2, "Hähnchen-Schenkel", BigInteger.valueOf(230L)));
+		artikelList.add(new HertlBotArticle(1, "1/2-Hähnchen", BigInteger.valueOf(460L)));
+		artikelList.add(new HertlBotArticle(2, "Hähnchen-Schenkel", BigInteger.valueOf(260L)));
 		artikelList.add(new HertlBotArticle(3, "Krautsalat", BigInteger.valueOf(180L)));        
 		artikelList.add(new HertlBotArticle(4, "Brezel-klein", BigInteger.valueOf(100L)));
 		artikelList.add(new HertlBotArticle(5, "Brezel-groß", BigInteger.valueOf(170L)));
