@@ -51,7 +51,7 @@ Commit your order
 
 == Copyright and Licensing
 
-Copyright (C) 2020 Arne Meier
+Copyright (C) 2022 Arne Meier
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
