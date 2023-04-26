@@ -105,4 +105,4 @@ jobs:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
           SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
     - name: start docker with ssh  
-      run: ssh -i ~/private.key -p 19999 atomuser@ks3266365.kimsufi.com  '/home/atomuser/progs/docker/start_bot_${{ env.GIT_BRANCH_NAME }}.sh'
+      run: ssh -i ~/private.key -p 19999 bigmama@bigamgamen.de  '/home/atomuser/progs/docker/start_bot_${{ env.GIT_BRANCH_NAME }}.sh'
