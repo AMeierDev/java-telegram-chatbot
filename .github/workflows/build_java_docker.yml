@@ -24,17 +24,17 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'adopt'
       - name: Build with Maven
         run: mvn clean package
       
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
          name: java.telegrambots.jar
          path: target/
@@ -47,21 +47,21 @@ jobs:
     steps:
     - name: Git branch name
       id: git-branch-name
-      uses: EthanSK/git-branch-name-action@v1
+      uses: EthanSK/git-branch-name-action@v2
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    - uses: actions/download-artifact@v2
+    - uses: actions/download-artifact@v3
       with:
           name: java.telegrambots.jar
           path: target/
     
     - name: Set up qemu
       id: qemu
-      uses: docker/setup-qemu-action@v1
+      uses: docker/setup-qemu-action@v2
       with:
         image: tonistiigi/binfmt:latest
         platforms: linux/amd64,linux/arm64,linux/arm/v7
@@ -78,14 +78,14 @@ jobs:
         run: docker buildx create --use
     
     - name: Login to DockerHub
-      uses: docker/login-action@v1 
+      uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWORD }}
       
     - name: Build and push
       id: docker_build
-      uses: docker/build-push-action@v2      
+      uses: docker/build-push-action@v3      
       with:
         context: ./
         file: ./Dockerfile
