@@ -124,7 +124,7 @@ public class HertlHendlBot extends AbilityBot
 		final String token = args[0] != null ? args[0] : BOT_TOKEN;
 		final String username = args[1] != null ? args[1] : BOT_USERNAME;
 		final Long creatorId = args[2] != null ? Long.valueOf(args[2]) : CREATOR_ID;
-		final String creatorPayPalEmail = args[3] != null ? args[3] : "";
+		final String creatorPayPalEmail =  "";
 		final HertlHendlBot bot = new HertlHendlBot(token, username, creatorId, creatorPayPalEmail);
 		final TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
 		api.registerBot(bot);
