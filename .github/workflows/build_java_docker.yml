@@ -47,7 +47,7 @@ jobs:
     steps:
     - name: Git branch name
       id: git-branch-name
-      uses: EthanSK/git-branch-name-action@v2
+      uses: EthanSK/git-branch-name-action@v1
     - name: Checkout
       uses: actions/checkout@v4
 
