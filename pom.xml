@@ -12,7 +12,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<telegram.bot.version>5.4.0</telegram.bot.version>
+		<telegram.bot.version>6.4.0</telegram.bot.version>
 		<microstream.version>08.01.01-MS-GA</microstream.version>
 	</properties>
 
