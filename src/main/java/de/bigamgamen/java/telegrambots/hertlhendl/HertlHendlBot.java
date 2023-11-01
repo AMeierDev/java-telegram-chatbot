@@ -24,6 +24,7 @@ import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -606,7 +607,7 @@ public class HertlHendlBot extends AbilityBot
 		try
 		{
 
-			final URL u = new URL(HERTL_URL);
+			final URL u = URI.create(HERTL_URL).toURL();
 
 			return u.openStream();
 

@@ -10,9 +10,10 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<telegram.bot.version>5.4.0</telegram.bot.version>
+		<microstream.version>08.01.01-MS-GA</microstream.version>
 	</properties>
 
 	<repositories>
@@ -34,15 +35,22 @@
 			<version>${telegram.bot.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/one.microstream/microstream-storage-embedded -->
 		<dependency>
 			<groupId>one.microstream</groupId>
-			<artifactId>storage.embedded</artifactId>
-			<version>04.00.00-MS-GA</version>
+			<artifactId>microstream-storage-embedded</artifactId>
+			<version>${microstream.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/one.microstream/microstream-storage-embedded-configuration -->
+		<dependency>
+			<groupId>one.microstream</groupId>
+			<artifactId>microstream-storage-embedded-configuration</artifactId>
+			<version>${microstream.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>one.microstream</groupId>
-			<artifactId>storage.embedded.configuration</artifactId>
-			<version>04.00.00-MS-GA</version>
+			<artifactId>microstream-persistence-binary-jdk17</artifactId>
+			<version>${microstream.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
