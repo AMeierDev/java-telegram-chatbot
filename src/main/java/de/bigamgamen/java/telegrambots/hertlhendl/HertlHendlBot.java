@@ -18,20 +18,21 @@
 
 package de.bigamgamen.java.telegrambots.hertlhendl;
 
-import static org.telegram.abilitybots.api.objects.Locality.ALL;
-import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigInteger;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import javax.xml.parsers.ParserConfigurationException;
-
+import com.google.common.annotations.VisibleForTesting;
+import de.bigamgamen.java.helper.IOHelper;
+import de.bigamgamen.java.helper.PaypalLinkGenerator;
+import de.bigamgamen.java.telegrambots.hertlhendl.api.RightController;
+import de.bigamgamen.java.telegrambots.hertlhendl.api.RoleController;
+import de.bigamgamen.java.telegrambots.hertlhendl.builder.TelegramKeyBoardBuilder;
+import de.bigamgamen.java.telegrambots.hertlhendl.controller.HertlRightController;
+import de.bigamgamen.java.telegrambots.hertlhendl.controller.HertlRoleController;
+import de.bigamgamen.java.telegrambots.hertlhendl.dal.HertlBotRootDao;
+import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotArticle;
+import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotOrder;
+import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotUser;
+import de.bigamgamen.java.telegrambots.hertlhendl.helper.OrderHelper;
+import de.bigamgamen.java.telegrambots.hertlhendl.helper.TelegramHelper;
+import de.bigamgamen.java.telegrambots.hertlhendl.init.InitArticles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.telegram.abilitybots.api.bot.AbilityBot;
@@ -49,22 +50,19 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 import org.xml.sax.SAXException;
 
-import com.google.common.annotations.VisibleForTesting;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
-import de.bigamgamen.java.helper.IOHelper;
-import de.bigamgamen.java.helper.PaypalLinkGenerator;
-import de.bigamgamen.java.telegrambots.hertlhendl.api.RightController;
-import de.bigamgamen.java.telegrambots.hertlhendl.api.RoleController;
-import de.bigamgamen.java.telegrambots.hertlhendl.builder.TelegramKeyBoardBuilder;
-import de.bigamgamen.java.telegrambots.hertlhendl.controller.HertlRightController;
-import de.bigamgamen.java.telegrambots.hertlhendl.controller.HertlRoleController;
-import de.bigamgamen.java.telegrambots.hertlhendl.dal.HertlBotRootDao;
-import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotArticle;
-import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotOrder;
-import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotUser;
-import de.bigamgamen.java.telegrambots.hertlhendl.helper.OrderHelper;
-import de.bigamgamen.java.telegrambots.hertlhendl.helper.TelegramHelper;
-import de.bigamgamen.java.telegrambots.hertlhendl.init.InitArticles;
+import static org.telegram.abilitybots.api.objects.Locality.ALL;
+import static org.telegram.abilitybots.api.objects.Privacy.PUBLIC;
 
 
 public class HertlHendlBot extends AbilityBot
@@ -103,8 +101,9 @@ public class HertlHendlBot extends AbilityBot
 	private final static String ADMIN_DEFAULT_NAME = "Admin";
 	
 	private static Integer CREATOR_ID = 0;
+	//NOTE needs an screenshot server like this https://hub.docker.com/r/branchard/website-screenshot-microservice
 	private static String HERTL_URL =
-		"http://ks3266365.kimsufi.com:2341/?url=https://hertel-haehnchen.de/standplatzsuche?search=92637";
+		"http://bigamgamen.de:1082/?url=https://hertel-grillgenuss.de/standortsuche?search=92637&day=All";
 	private static HertlBotRootDao hertlBotDao;
 
 	private final TelegramKeyBoardBuilder keyBoardBuilder;
@@ -606,7 +605,7 @@ public class HertlHendlBot extends AbilityBot
 		try
 		{
 
-			final URL u = new URL(HERTL_URL);
+			final URL u = URI.create(HERTL_URL).toURL();
 
 			return u.openStream();
 

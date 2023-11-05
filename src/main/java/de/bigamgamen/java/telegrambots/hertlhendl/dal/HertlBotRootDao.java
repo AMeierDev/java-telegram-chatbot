@@ -1,5 +1,13 @@
 package de.bigamgamen.java.telegrambots.hertlhendl.dal;
 
+import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotOrder;
+import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotRoot;
+import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotUser;
+import one.microstream.persistence.binary.jdk17.types.BinaryHandlersJDK17;
+import one.microstream.storage.embedded.configuration.types.EmbeddedStorageConfiguration;
+import one.microstream.storage.embedded.types.EmbeddedStorageFoundation;
+import one.microstream.storage.embedded.types.EmbeddedStorageManager;
+
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -7,13 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
-import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotOrder;
-import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotRoot;
-import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotUser;
-import one.microstream.storage.configuration.Configuration;
-import one.microstream.storage.types.EmbeddedStorageFoundation;
-import one.microstream.storage.types.EmbeddedStorageManager;
 
 public class HertlBotRootDao
 {
@@ -35,12 +36,15 @@ public class HertlBotRootDao
 
 	private static EmbeddedStorageManager createStorageManager()
 	{
-		final Configuration configuration = Configuration.Default();
-		configuration.setBaseDirectory(Paths.get("data", "microstream", "storage").toString());
-		configuration.setChannelCount(2);
+		final EmbeddedStorageFoundation<?> foundation = EmbeddedStorageConfiguration.Builder()
+				.setStorageDirectory(Paths.get("data", "microstream", "storage").toString())
+				.setChannelCount(Math.max(
+						1, // minimum one channel, if only 1 core is available
+						Integer.highestOneBit(Runtime.getRuntime().availableProcessors() - 1)
+				))
+				.createEmbeddedStorageFoundation();
 
-		final EmbeddedStorageFoundation<?> foundation = configuration.createEmbeddedStorageFoundation();
-
+		foundation.onConnectionFoundation(BinaryHandlersJDK17::registerJDK17TypeHandlers);
 		final EmbeddedStorageManager storageManager = foundation.createEmbeddedStorageManager().start();
 
 		if (storageManager.root() == null)
