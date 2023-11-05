@@ -101,9 +101,9 @@ public class HertlHendlBot extends AbilityBot
 	private final static String ADMIN_DEFAULT_NAME = "Admin";
 	
 	private static Integer CREATOR_ID = 0;
-	//NOTE needs an screenshot server like this https://hub.docker.com/r/rootzoll/web-screenshot
+	//NOTE needs an screenshot server like this https://hub.docker.com/r/branchard/website-screenshot-microservice
 	private static String HERTL_URL =
-		"http://ks3266365.kimsufi.com:2341/?url=https://hertel-grillgenuss.de/standortsuche?search=92637&day=All";
+		"http://bigamgamen.de:1082/?url=https://hertel-grillgenuss.de/standortsuche?search=92637&day=All";
 	private static HertlBotRootDao hertlBotDao;
 
 	private final TelegramKeyBoardBuilder keyBoardBuilder;
