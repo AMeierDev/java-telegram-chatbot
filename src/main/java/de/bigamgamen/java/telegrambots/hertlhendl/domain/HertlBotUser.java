@@ -1,9 +1,10 @@
 package de.bigamgamen.java.telegrambots.hertlhendl.domain;
 
+import org.eclipse.serializer.persistence.types.Persister;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import one.microstream.persistence.types.Persister;
 
 public class HertlBotUser {
 

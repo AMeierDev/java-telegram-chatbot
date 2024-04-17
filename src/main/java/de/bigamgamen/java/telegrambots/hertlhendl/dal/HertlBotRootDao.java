@@ -3,10 +3,9 @@ package de.bigamgamen.java.telegrambots.hertlhendl.dal;
 import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotOrder;
 import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotRoot;
 import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotUser;
-import one.microstream.persistence.binary.jdk17.types.BinaryHandlersJDK17;
-import one.microstream.storage.embedded.configuration.types.EmbeddedStorageConfiguration;
-import one.microstream.storage.embedded.types.EmbeddedStorageFoundation;
-import one.microstream.storage.embedded.types.EmbeddedStorageManager;
+
+import org.eclipse.store.storage.embedded.types.EmbeddedStorage;
+import org.eclipse.store.storage.embedded.types.EmbeddedStorageManager;
 
 import java.nio.file.Paths;
 import java.time.LocalDate;
@@ -36,16 +35,7 @@ public class HertlBotRootDao
 
 	private static EmbeddedStorageManager createStorageManager()
 	{
-		final EmbeddedStorageFoundation<?> foundation = EmbeddedStorageConfiguration.Builder()
-				.setStorageDirectory(Paths.get("data", "microstream", "storage").toString())
-				.setChannelCount(Math.max(
-						1, // minimum one channel, if only 1 core is available
-						Integer.highestOneBit(Runtime.getRuntime().availableProcessors() - 1)
-				))
-				.createEmbeddedStorageFoundation();
-
-		foundation.onConnectionFoundation(BinaryHandlersJDK17::registerJDK17TypeHandlers);
-		final EmbeddedStorageManager storageManager = foundation.createEmbeddedStorageManager().start();
+		final EmbeddedStorageManager storageManager = EmbeddedStorage.start(Paths.get("data", "eclipsestore", "storage"));
 
 		if (storageManager.root() == null)
 		{
