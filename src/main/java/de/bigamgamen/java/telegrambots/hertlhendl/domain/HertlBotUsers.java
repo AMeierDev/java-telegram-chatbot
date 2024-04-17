@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.Optional;
 
 import de.bigamgamen.java.telegrambots.hertlhendl.dal.HertlBotRootDao;
-import one.microstream.persistence.types.Persister;
+import org.eclipse.serializer.persistence.types.Persister;
 
 public class HertlBotUsers {
 
