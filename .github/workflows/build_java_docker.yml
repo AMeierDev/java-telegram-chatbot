@@ -9,6 +9,7 @@ on:
     branches:
       - main
       - staging
+      - develop
 
 
   # Allows you to run this workflow manually from the Actions tab
@@ -26,15 +27,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'adopt'
+          java-version: '21'
+          distribution: 'temurin'
       - name: Build with Maven
         run: mvn clean package
       
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
          name: java.telegrambots.jar
          path: target/
@@ -54,7 +55,7 @@ jobs:
 
     - uses: actions/checkout@v4
 
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4.1.7
       with:
           name: java.telegrambots.jar
           path: target/
@@ -105,4 +106,4 @@ jobs:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
           SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
     - name: start docker with ssh  
-      run: ssh -i ~/private.key -p 19999 bigmama@bigamgamen.de  'docker remove -f bot-${{ env.GIT_BRANCH_NAME }} && docker image pull amgamen/chatbot:${{ env.GIT_BRANCH_NAME }} && docker run -d -v chatbotvol-${{ env.GIT_BRANCH_NAME }}:/opt/telegrambot/data  --env-file ~/chatbot/env_${{ env.GIT_BRANCH_NAME }} --restart unless-stopped --name bot-${{ env.GIT_BRANCH_NAME }} amgamen/chatbot:${{ env.GIT_BRANCH_NAME }}'
+      run: ssh -i ~/private.key -p 19999 bigmama@bigamgamen.de  'docker rm -f bot-${{ env.GIT_BRANCH_NAME }} && docker image pull amgamen/chatbot:${{ env.GIT_BRANCH_NAME }} && docker run -d -v chatbotvol-${{ env.GIT_BRANCH_NAME }}:/opt/telegrambot/data  --env-file ~/chatbot/env_${{ env.GIT_BRANCH_NAME }} --restart unless-stopped --name bot-${{ env.GIT_BRANCH_NAME }} amgamen/chatbot:${{ env.GIT_BRANCH_NAME }}'
