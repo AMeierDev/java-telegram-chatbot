@@ -106,4 +106,4 @@ jobs:
           SSH_PRIVATE_KEY: ${{secrets.SSH_PRIVATE_KEY}}
           SSH_KNOWN_HOSTS: ${{secrets.SSH_KNOWN_HOSTS}}
     - name: start docker with ssh  
-      run: ssh -i ~/private.key -p 19999 bigmama@bigamgamen.de  'docker remove -f bot-${{ env.GIT_BRANCH_NAME }} && docker image pull amgamen/chatbot:${{ env.GIT_BRANCH_NAME }} && docker run -d -v chatbotvol-${{ env.GIT_BRANCH_NAME }}:/opt/telegrambot/data  --env-file ~/chatbot/env_${{ env.GIT_BRANCH_NAME }} --restart unless-stopped --name bot-${{ env.GIT_BRANCH_NAME }} amgamen/chatbot:${{ env.GIT_BRANCH_NAME }}'
+      run: ssh -i ~/private.key -p 19999 bigmama@bigamgamen.de  'docker rm -f bot-${{ env.GIT_BRANCH_NAME }} && docker image pull amgamen/chatbot:${{ env.GIT_BRANCH_NAME }} && docker run -d -v chatbotvol-${{ env.GIT_BRANCH_NAME }}:/opt/telegrambot/data  --env-file ~/chatbot/env_${{ env.GIT_BRANCH_NAME }} --restart unless-stopped --name bot-${{ env.GIT_BRANCH_NAME }} amgamen/chatbot:${{ env.GIT_BRANCH_NAME }}'
