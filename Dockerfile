@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jammy
+FROM eclipse-temurin:21-noble
 LABEL maintainer="AMDev"
 
 RUN groupadd --system -g 1001 telegrambot && adduser --uid 1001 --gid 1001 --disabled-password --shell  /bin/false telegrambot
