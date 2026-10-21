@@ -1,6 +1,7 @@
 package de.bigamgamen.java.helper;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 import de.bigamgamen.java.telegrambots.hertlhendl.domain.HertlBotOrder;
@@ -33,7 +34,7 @@ public class PaypalLinkGenerator
 		sb.append(ITEM_NAME).append(order.getPayPalDescription());
 		sb.append(CURRENCY_CODE).append(DEFAULT_CURRENCY);
 
-		final URL paylpalLink = new URL(sb.toString());
+		final URL paylpalLink = URI.create(sb.toString()).toURL();
 		return paylpalLink;
 	}
 	
